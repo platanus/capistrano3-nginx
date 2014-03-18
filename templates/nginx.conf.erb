@@ -1,0 +1,68 @@
+<% if fetch(:app_server) && (fetch(:app_server_socket) || fetch(:app_server_port))%>
+# Define App Server Upstream
+upstream <%= fetch(:application) %>-app-server {
+<% if fetch(:app_server_socket) %>
+  server unix:<%= fetch(:app_server_socket) %> fail_timeout=0;
+<% elsif fetch(:app_server_port) %>
+  server <%= fetch(:app_server_host, '127.0.0.1') %>:<%= fetch(:app_server_port) %> fail_timeout=0;
+<% end %>
+}
+<% end %>
+
+# HTTP Server
+
+<% if fetch(:nginx_use_ssl) %>
+server {
+  listen 80;
+  rewrite ^(.*) https://$host$1 permanent;
+}
+<% end %>
+
+server {
+
+<% if fetch(:nginx_use_ssl) %>
+  listen 443;
+  ssl on;
+  ssl_certificate /etc/ssl/certs/<%= nginx_ssl_certificate %>;
+  ssl_certificate_key /etc/ssl/private/<%= nginx_ssl_certificate_key %>;
+<% else %>
+  listen 80;
+<% end %>
+
+  server_name <%= fetch(:nginx_domains) %>;
+  root        <%= fetch(:deploy_to) %>/current/<%= fetch(:static_dir) %>;
+
+  access_log <%= fetch(:nginx_log_path) %>/nginx-access.log;
+  error_log  <%= fetch(:nginx_log_path) %>/nginx-error.log;
+
+  error_page 404 /404.html;
+  location /404.html { root <%= fetch(:deploy_to) %>/current/<%= fetch(:static_dir) %>; }
+
+  error_page 500 /500.html;
+  location /500.html { root <%= fetch  (:deploy_to) %>/current/<%= fetch(:static_dir) %>; }
+
+  client_max_body_size 4G;
+  keepalive_timeout 10;
+
+<% if fetch(:app_server) && (fetch(:app_server_socket) || fetch(:app_server_port))%>
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
+  try_files $uri/index.html $uri @<%= fetch(:application) %>-app-server;
+
+  location @<%= fetch(:application) %>-app-server {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-FORWARDED_PROTO http;
+    proxy_set_header Host $http_host;
+  <% if fetch(:nginx_use_ssl) %>
+    proxy_set_header X-Forwarded-Proto https;
+  <% end %>
+    proxy_redirect off;
+    proxy_pass http://<%= fetch(:application) %>-app-server;
+  }
+<% end %>
+}
