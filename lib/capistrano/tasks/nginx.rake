@@ -43,6 +43,15 @@ namespace :nginx do
     end
   end
 
+  desc 'Compress JS and CSS with gzip'
+  task :gzip_static => ['nginx:load_vars'] do
+    on release_roles fetch(:nginx_roles) do
+      within release_path do
+        execute :find, "'#{fetch(:nginx_static_dir)}' -type f -name '*.js' -o -name '*.css' -exec gzip -v -9 -f -k {} \\;"
+      end
+    end
+  end
+
   namespace :site do
     desc 'Creates the site configuration and upload it to the available folder'
     task :add => ['nginx:load_vars'] do
