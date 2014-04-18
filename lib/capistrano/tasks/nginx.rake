@@ -52,9 +52,6 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         within fetch(:sites_available) do
           config_file = fetch(:nginx_template)
-          unless File.exists?(config_file)
-            config_file = File.expand_path('../../../../templates/nginx.conf.erb', __FILE__)
-          end
           config = ERB.new(File.read(config_file)).result(binding)
           upload! StringIO.new(config), '/tmp/nginx.conf'
 
