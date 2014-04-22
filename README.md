@@ -8,6 +8,7 @@ Differences
 - `nginx:gzip_static` to gzip compress all `*.js` and `*.css` files below `:nginx_doc_root` recursively
 - Removed the potentially dangerous fallback to a default nginx site-configuration template, when the 
   configured one isn't found
+- Use `:sudo` to handle site configuration
 
 Nginx support for Capistrano 3.x
 
