@@ -6,7 +6,7 @@ namespace :load do
     set :nginx_doc_root, -> { "/var/www" }
     set :nginx_sites_enabled, -> { "sites-enabled" }
     set :nginx_sites_available, -> { "sites-available" }
-    set :nginx_template, -> { "config/deploy/#{fetch(:stage)}/nginx.conf.erb" }
+    set :nginx_template, -> { "#{fetch(:stage_config_path)}/#{fetch(:stage)}/nginx.conf.erb" }
     set :nginx_use_ssl, -> { false }
     set :app_server, -> { true }
   end
@@ -87,7 +87,7 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         if test "[ -f #{fetch(:available_application)} ]"
           within fetch(:sites_available) do
-            execute :rm, fetch(:application)
+            execute :sudo, :rm, fetch(:application)
           end
         end
       end
