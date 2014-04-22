@@ -1,12 +1,21 @@
 # Capistrano::Nginx [![Gem Version](https://badge.fury.io/rb/capistrano3-nginx.png)](http://badge.fury.io/rb/capistrano3-nginx)
 
+This is a fork of [platanus/capistrano3-nginx](https://github.com/platanus/capistrano3-nginx). I am not entirely sure
+how actively that one is maintained.
+
+Differences
+-----------
+- `nginx:gzip_static` to gzip compress all `*.js` and `*.css` files below `:nginx_doc_root` recursively
+- Removed the potentially dangerous fallback to a default nginx site-configuration template, when the 
+  configured one isn't found
+
 Nginx support for Capistrano 3.x
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'capistrano3-nginx', '~> 1.0'
+    gem 'capistrano3-nginx', '~> 1.0', :github => 'KingCrunch/capistrano3-nginx'
     gem 'capistrano'
 
 And then execute:
@@ -32,6 +41,7 @@ cap nginx:start                    # Start nginx service
 cap nginx:stop                     # Stop nginx service
 cap nginx:reload                   # Reload nginx service
 cap nginx:restart                  # Restart nginx service
+cap nginx:gzip_static              # Compress JS and CSS assets
 cap nginx:site:add                 # Creates the site configuration and upload it to the available folder
 cap nginx:site:disable             # Disables the site removing the symbolic link located in the enabled folder
 cap nginx:site:enable              # Enables the site creating a symbolic link into the enabled folder
@@ -56,6 +66,9 @@ set :nginx_log_path, "#{shared_path}/log"
 # Path where nginx is installed
 # default value: "/etc/nginx"
 set :nginx_root_path, "/etc/nginx"
+
+# The webservers/applications document root
+set :nginx_doc_root, "/var/www"
 
 # Path where nginx available site are stored
 # default value: "sites-available"
