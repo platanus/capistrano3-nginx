@@ -48,7 +48,7 @@ namespace :nginx do
           config = ERB.new(File.read(config_file)).result(binding)
           upload! StringIO.new(config), '/tmp/nginx.conf'
 
-          execute :mv, '/tmp/nginx.conf', fetch(:application)
+          execute :sudo, :mv, '/tmp/nginx.conf', fetch(:application)
         end
       end
     end
@@ -58,7 +58,7 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         if test "! [ -h #{fetch(:enabled_application)} ]"
           within fetch(:sites_enabled) do
-            execute :ln, '-nfs', fetch(:available_application), fetch(:enabled_application)
+            execute :sudo, :ln, '-nfs', fetch(:available_application), fetch(:enabled_application)
           end
         end
       end
@@ -69,7 +69,7 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         if test "[ -f #{fetch(:enabled_application)} ]"
           within fetch(:sites_enabled) do
-            execute :rm, '-f', fetch(:application)
+            execute :sudo, :rm, '-f', fetch(:application)
           end
         end
       end
@@ -80,7 +80,7 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         if test "[ -f #{fetch(:available_application)} ]"
           within fetch(:sites_available) do
-            execute :rm, fetch(:application)
+            execute :sudo, :rm, fetch(:application)
           end
         end
       end
