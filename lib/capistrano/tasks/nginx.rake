@@ -5,7 +5,7 @@ namespace :load do
     set :nginx_root_path, -> { "/etc/nginx" }
     set :nginx_sites_enabled, -> { "sites-enabled" }
     set :nginx_sites_available, -> { "sites-available" }
-    set :nginx_template, -> { "config/deploy/#{fetch(:stage)}/nginx.conf.erb" }
+    set :nginx_template, -> { "#{fetch(:stage_config_path)}/#{fetch(:stage)}/nginx.conf.erb" }
     set :nginx_use_ssl, -> { false }
     set :app_server, -> { true }
   end
