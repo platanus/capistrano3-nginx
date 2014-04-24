@@ -3,6 +3,7 @@ namespace :load do
     set :nginx_roles, -> { :web }
     set :nginx_log_path, -> { "#{shared_path}/log" }
     set :nginx_root_path, -> { "/etc/nginx" }
+    set :nginx_doc_root, -> { "/var/www" }
     set :nginx_sites_enabled, -> { "sites-enabled" }
     set :nginx_sites_available, -> { "sites-available" }
     set :nginx_template, -> { "#{fetch(:stage_config_path)}/#{fetch(:stage)}/nginx.conf.erb" }
@@ -33,6 +34,15 @@ namespace :nginx do
   after 'deploy:check', nil do
     on release_roles fetch(:nginx_roles) do
       execute :mkdir, '-pv', fetch(:nginx_log_path)
+    end
+  end
+    
+  desc 'Compress JS and CSS with gzip'
+  task :gzip_static => ['nginx:load_vars'] do
+    on release_roles fetch(:nginx_roles) do
+      within release_path do
+        execute :find, "'#{fetch(:nginx_doc_root)}' -type f -name '*.js' -o -name '*.css' -exec gzip -v -9 -f -k {} \\;"
+      end
     end
   end
 
