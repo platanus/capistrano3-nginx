@@ -5,7 +5,7 @@ namespace :load do
     set :nginx_root_path, -> { "/etc/nginx" }
     set :nginx_sites_enabled, -> { "sites-enabled" }
     set :nginx_sites_available, -> { "sites-available" }
-    set :nginx_template, -> { "#{fetch(:stage_config_path)}/#{fetch(:stage)}/nginx.conf.erb" }
+    set :nginx_template, -> { :default }
     set :nginx_use_ssl, -> { false }
     set :app_server, -> { true }
   end
@@ -42,8 +42,8 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         within fetch(:sites_available) do
           config_file = fetch(:nginx_template)
-          unless File.exists?(config_file)
-            config_file = File.expand_path('../../../../templates/nginx.conf.erb', __FILE__)
+          if config_file == :default
+              config_file = File.expand_path('../../../../templates/nginx.conf.erb', __FILE__)
           end
           config = ERB.new(File.read(config_file)).result(binding)
           upload! StringIO.new(config), '/tmp/nginx.conf'
