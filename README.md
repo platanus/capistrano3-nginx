@@ -66,8 +66,10 @@ set :nginx_sites_available, "sites-available"
 set :nginx_sites_enabled, "sites-enabled"
 
 # Path to look for custom config template
-# default value: "config/deploy/#{stage}/nginx.conf.erb"
-set :nginx_template, "config/deploy/#{stage}/nginx.conf.erb"
+# `:default` will use the bundled nginx template
+# default value: :default
+set :nginx_template, "#{fetch(:stage_config_path)}/#{stage}/nginx.conf.erb"
+set :nginx_tempalte, :default
 
 # Use ssl on port 443 to serve on https. Every request to por 80
 # will be rewritten to 443
