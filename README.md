@@ -6,7 +6,7 @@ Nginx support for Capistrano 3.x
 
 Add this line to your application's Gemfile:
 
-    gem 'capistrano3-nginx', '~> 1.0'
+    gem 'capistrano3-nginx', '~> 2.0'
     gem 'capistrano'
 
 And then execute:
