@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'capistrano3-nginx'
-  spec.version       = '1.0.0'
+  spec.version       = '2.0.0'
   spec.authors       = ['Juan Ignacio Donoso']
   spec.email         = ['jidonoso@gmail.com']
   spec.description   = %q{Adds suuport to nginx for Capistrano 3.x}
