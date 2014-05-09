@@ -30,16 +30,16 @@ server {
 <% end %>
 
   server_name <%= fetch(:nginx_domains) %>;
-  root        <%= fetch(:deploy_to) %>/current/<%= fetch(:static_dir) %>;
+  root        <%= fetch(:deploy_to) %>/current/<%= fetch(:nginx_static_dir) %>;
 
   access_log <%= fetch(:nginx_log_path) %>/nginx-access.log;
   error_log  <%= fetch(:nginx_log_path) %>/nginx-error.log;
 
   error_page 404 /404.html;
-  location /404.html { root <%= fetch(:deploy_to) %>/current/<%= fetch(:static_dir) %>; }
+  location /404.html { root <%= fetch(:deploy_to) %>/current/<%= fetch(:nginx_static_dir) %>; }
 
   error_page 500 /500.html;
-  location /500.html { root <%= fetch  (:deploy_to) %>/current/<%= fetch(:static_dir) %>; }
+  location /500.html { root <%= fetch  (:deploy_to) %>/current/<%= fetch(:nginx_static_dir) %>; }
 
   client_max_body_size 4G;
   keepalive_timeout 10;

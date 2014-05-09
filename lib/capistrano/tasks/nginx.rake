@@ -3,6 +3,7 @@ namespace :load do
     set :nginx_roles, -> { :web }
     set :nginx_log_path, -> { "#{shared_path}/log" }
     set :nginx_root_path, -> { "/etc/nginx" }
+    set :nginx_static_dir, -> { "public" }
     set :nginx_sites_enabled, -> { "sites-enabled" }
     set :nginx_sites_available, -> { "sites-available" }
     set :nginx_template, -> { :default }

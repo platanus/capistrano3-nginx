@@ -57,6 +57,10 @@ set :nginx_log_path, "#{shared_path}/log"
 # default value: "/etc/nginx"
 set :nginx_root_path, "/etc/nginx"
 
+# Path where to look for static files
+# default value: "public"
+set :nginx_root_path, "my_static_folder"
+
 # Path where nginx available site are stored
 # default value: "sites-available"
 set :nginx_sites_available, "sites-available"
