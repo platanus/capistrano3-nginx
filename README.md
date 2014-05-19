@@ -91,11 +91,11 @@ set :app_server_socket, "#{shared_path}/sockets/#{application}.sock"
 
 # The host that nginx will use as upstream to server the application
 # default value: 127.0.0.1
-set :app_server_port,
+set :app_server_host, "127.0.0.1"
 
 # The port the application server is running on
 # no default value
-set :app_server_host,
+set :app_server_port, 8080
 ```
 
 ## Thanks
