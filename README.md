@@ -38,7 +38,7 @@ cap nginx:site:enable              # Enables the site creating a symbolic link i
 cap nginx:site:remove              # Removes the site removing the configuration file from the available folder
 ```
 
-Configurable options, shown here with examples:
+Configurable options (copy into deploy.rb), shown here with examples:
 
 ```ruby
 # Server name for nginx
