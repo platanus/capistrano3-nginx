@@ -1,5 +1,6 @@
 namespace :load do
   task :defaults do
+    set :nginx_service_path, -> { 'service nginx' }
     set :nginx_roles, -> { :web }
     set :nginx_log_path, -> { "#{shared_path}/log" }
     set :nginx_root_path, -> { "/etc/nginx" }
@@ -23,9 +24,10 @@ namespace :nginx do
   %w[start stop restart reload].each do |command|
     desc "#{command.capitalize} nginx service"
     task command do
+      nginx_service = fetch(:nginx_service_path)
       on release_roles fetch(:nginx_roles) do
-        if command === 'stop' || (test "sudo nginx -t")
-          execute :sudo, "service nginx #{command}"
+        if command === 'stop' || (test "[ $(sudo #{nginx_service} configtest | grep -c 'fail') -eq 0 ]")
+          execute :sudo, "#{nginx_service} #{command}"
         end
       end
     end
