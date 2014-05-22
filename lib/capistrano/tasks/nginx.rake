@@ -1,6 +1,7 @@
 namespace :load do
   task :defaults do
     set :nginx_service_path, -> { 'service nginx' }
+    set :nginx_use_sudo_for, -> { [:nginx_service_path, :nginx_sites_enabled, :nginx_sites_available] }
     set :nginx_roles, -> { :web }
     set :nginx_log_path, -> { "#{shared_path}/log" }
     set :nginx_root_path, -> { "/etc/nginx" }
@@ -18,6 +19,18 @@ namespace :load do
 end
 
 namespace :nginx do
+
+  # prepend :sudo to list if arguments if :key is in :nginx_use_sudo_for list
+  def add_sudo_if_required argument_list, key
+    if use_sudo? key
+      argument_list.unshift(:sudo)
+    end
+  end
+
+  def use_sudo? key
+    return fetch(:nginx_use_sudo_for).include? key
+  end
+
   task :load_vars do
     set :sites_available, -> { File.join(fetch(:nginx_root_path), fetch(:nginx_sites_available)) }
     set :sites_enabled, -> { File.join(fetch(:nginx_root_path), fetch(:nginx_sites_enabled)) }
@@ -30,8 +43,11 @@ namespace :nginx do
     task command do
       nginx_service = fetch(:nginx_service_path)
       on release_roles fetch(:nginx_roles) do
-        if command === 'stop' || (test "[ $(sudo #{nginx_service} configtest | grep -c 'fail') -eq 0 ]")
-          execute :sudo, "#{nginx_service} #{command}"
+        test_sudo = use_sudo?(:nginx_service_path) ? 'sudo ' : ''
+        if command === 'stop' || (test "[ $(#{test_sudo}#{nginx_service} configtest | grep -c 'fail') -eq 0 ]")
+          arguments = nginx_service, command
+          add_sudo_if_required arguments, :nginx_service_path
+          execute *arguments
         end
       end
     end
@@ -39,7 +55,9 @@ namespace :nginx do
 
   after 'deploy:check', nil do
     on release_roles fetch(:nginx_roles) do
-      execute :mkdir, '-pv', fetch(:nginx_log_path)
+      arguments = :mkdir, '-pv', fetch(:nginx_log_path)
+      add_sudo_if_required arguments, :nginx_log_path
+      execute *arguments
     end
   end
 
@@ -63,8 +81,9 @@ namespace :nginx do
           end
           config = ERB.new(File.read(config_file)).result(binding)
           upload! StringIO.new(config), '/tmp/nginx.conf'
-
-          execute :sudo, :mv, '/tmp/nginx.conf', fetch(:application)
+          arguments = :mv, '/tmp/nginx.conf', fetch(:application)
+          add_sudo_if_required arguments, :nginx_sites_available
+          execute *arguments
         end
       end
     end
@@ -74,7 +93,9 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         if test "! [ -h #{fetch(:enabled_application)} ]"
           within fetch(:sites_enabled) do
-            execute :sudo, :ln, '-nfs', fetch(:available_application), fetch(:enabled_application)
+            arguments = :ln, '-nfs', fetch(:available_application), fetch(:enabled_application)
+            add_sudo_if_required arguments, :nginx_sites_enabled
+            execute *arguments
           end
         end
       end
@@ -85,7 +106,9 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         if test "[ -f #{fetch(:enabled_application)} ]"
           within fetch(:sites_enabled) do
-            execute :sudo, :rm, '-f', fetch(:application)
+            arguments = :rm, '-f', fetch(:application)
+            add_sudo_if_required arguments, :nginx_sites_enabled
+            execute *arguments
           end
         end
       end
@@ -96,7 +119,9 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         if test "[ -f #{fetch(:available_application)} ]"
           within fetch(:sites_available) do
-            execute :sudo, :rm, fetch(:application)
+            arguments = :rm, fetch(:application)
+            add_sudo_if_required arguments, :nginx_sites_enabled
+            execute *arguments
           end
         end
       end

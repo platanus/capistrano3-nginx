@@ -46,6 +46,10 @@ Configurable options (copy into deploy.rb), shown here with examples:
 # No default vaue
 set :nginx_domains, "foo.bar.com"
 
+# Use sudo commands when manipulating paths or running services in this list.
+# default value: [:nginx_service_path, :nginx_sites_enabled, :nginx_sites_available]
+set :nginx_use_sudo_for, [:nginx_service_path]
+
 # nginx service script
 # Defaults to using the 'service' convinience script.
 # You might prefer using the init.d instead depending on sudo privilages.
