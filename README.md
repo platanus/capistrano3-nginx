@@ -59,7 +59,7 @@ set :nginx_root_path, "/etc/nginx"
 
 # Path where to look for static files
 # default value: "public"
-set :nginx_root_path, "my_static_folder"
+set :nginx_static_dir, "my_static_folder"
 
 # Path where nginx available site are stored
 # default value: "sites-available"
