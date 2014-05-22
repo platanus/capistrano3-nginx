@@ -45,6 +45,12 @@ Configurable options (copy into deploy.rb), shown here with examples:
 # No default vaue
 set :nginx_domains, "foo.bar.com"
 
+# nginx service script
+# Defaults to using the 'service' convinience script.
+# You might prefer using the init.d instead depending on sudo privilages.
+# default value: "service nginx"
+set :nginx_service_path, "/etc/init.d/nginx"
+
 # Roles the deploy nginx site on,
 # default value: :web
 set :nginx_roles, :web
