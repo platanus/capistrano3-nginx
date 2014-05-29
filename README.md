@@ -81,11 +81,11 @@ set :nginx_static_dir, "my_static_folder"
 
 # Path where nginx available site are stored
 # default value: "sites-available"
-set :nginx_sites_available, "sites-available"
+set :nginx_sites_available_dir, "sites-available"
 
 # Path where nginx available site are stored
 # default value: "sites-enabled"
-set :nginx_sites_enabled, "sites-enabled"
+set :nginx_sites_enabled_dir, "sites-enabled"
 
 # Path to look for custom config template
 # `:default` will use the bundled nginx template
