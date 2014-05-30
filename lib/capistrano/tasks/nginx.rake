@@ -36,7 +36,7 @@ namespace :nginx do
   end
 
   def valid_nginx_config?
-    test_sudo = use_sudo?(:configtest) ? 'sudo ' : ''
+    test_sudo = use_sudo?('nginx:configtest') ? 'sudo ' : ''
     nginx_service = fetch(:nginx_service_path)
     test "[ $(#{test_sudo}#{nginx_service} configtest | grep -c 'fail') -eq 0 ]"
   end
