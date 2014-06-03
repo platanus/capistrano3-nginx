@@ -50,8 +50,8 @@ set :nginx_domains, "foo.bar.com"
 set :nginx_roles, :web
 
 # Path, where nginx log file will be stored
-# default value:  "#{fetch :shared_path}/log"
-set :nginx_log_path, "#{fetch :shared_path}/log"
+# default value:  "#{shared_path}/log"
+# set :nginx_log_path, "#{shared_path}/log"
 
 # Path where nginx is installed
 # default value: "/etc/nginx"
@@ -72,8 +72,7 @@ set :nginx_sites_enabled, "sites-enabled"
 # Path to look for custom config template
 # `:default` will use the bundled nginx template
 # default value: :default
-set :nginx_template, "#{fetch :stage_config_path}/#{fetch :stage}/nginx.conf.erb"
-set :nginx_tempalte, :default
+set :nginx_template, "#{stage_config_path}/#{fetch :stage}/nginx.conf.erb"
 
 # Use ssl on port 443 to serve on https. Every request to por 80
 # will be rewritten to 443
@@ -87,7 +86,7 @@ set :app_server, true
 # Socket file that nginx will use as upstream to serve the application
 # Note: Socket upstream has priority over host:port upstreams
 # no default value
-set :app_server_socket, "#{fetch :shared_path}/sockets/#{fetch :application}.sock"
+set :app_server_socket, "#{shared_path}/sockets/unicorn-#{fetch :application}.sock"
 
 # The host that nginx will use as upstream to server the application
 # default value: 127.0.0.1
