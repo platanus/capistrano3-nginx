@@ -38,12 +38,18 @@ cap nginx:site:enable              # Enables the site creating a symbolic link i
 cap nginx:site:remove              # Removes the site removing the configuration file from the available folder
 ```
 
-Configurable options, shown here with examples:
+Configurable options (copy into deploy.rb), shown here with examples:
 
 ```ruby
 # Server name for nginx
 # No default vaue
 set :nginx_domains, "foo.bar.com"
+
+# nginx service script
+# Defaults to using the 'service' convinience script.
+# You might prefer using the init.d instead depending on sudo privilages.
+# default value: "service nginx"
+set :nginx_service_path, "/etc/init.d/nginx"
 
 # Roles the deploy nginx site on,
 # default value: :web
@@ -59,7 +65,7 @@ set :nginx_root_path, "/etc/nginx"
 
 # Path where to look for static files
 # default value: "public"
-set :nginx_root_path, "my_static_folder"
+set :nginx_static_dir, "my_static_folder"
 
 # Path where nginx available site are stored
 # default value: "sites-available"
@@ -90,11 +96,11 @@ set :app_server_socket, "#{shared_path}/sockets/unicorn-#{fetch :application}.so
 
 # The host that nginx will use as upstream to server the application
 # default value: 127.0.0.1
-set :app_server_port,
+set :app_server_host, "127.0.0.1"
 
 # The port the application server is running on
 # no default value
-set :app_server_host,
+set :app_server_port, 8080
 ```
 
 ## Thanks
