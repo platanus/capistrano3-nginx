@@ -80,10 +80,26 @@ set :nginx_sites_enabled, "sites-enabled"
 # default value: :default
 set :nginx_template, "#{stage_config_path}/#{fetch :stage}/nginx.conf.erb"
 
-# Use ssl on port 443 to serve on https. Every request to por 80
+# Use SSL on port 443 to serve on https. Every request to por 80
 # will be rewritten to 443
 # default value: false
 set :nginx_use_ssl, false
+
+# Name of SSL certificate file
+# default value: "#{application}.crt"
+set :nginx_ssl_certificate, 'my-domain.crt'
+
+# SSL certificate file path
+# default value: "/etc/ssl/certs"
+set :nginx_ssl_certificate_path, "#{shared_path}/ssl/certs"
+
+# Name of SSL certificate private key
+# default value: "#{application}.key"
+set :nginx_ssl_certificate_key, 'my-domain.key'
+
+# SSL certificate private key path
+# default value: "/etc/ssl/private"
+set :nginx_ssl_certificate_key_path, "#{shared_path}/ssl/private"
 
 # Whether you want to server an application through a proxy pass
 # default value: true

@@ -9,6 +9,10 @@ namespace :load do
     set :nginx_sites_available, -> { "sites-available" }
     set :nginx_template, -> { :default }
     set :nginx_use_ssl, -> { false }
+    set :nginx_ssl_certificate, -> { "#{fetch(:application)}.crt" }
+    set :nginx_ssl_certificate_path, -> { '/etc/ssl/certs' }
+    set :nginx_ssl_certificate_key, -> { "#{fetch(:application)}.crt" }
+    set :nginx_ssl_certificate_key_path, -> { '/etc/ssl/private' }
     set :app_server, -> { true }
   end
 end
