@@ -36,6 +36,7 @@ cap nginx:site:add                 # Creates the site configuration and upload i
 cap nginx:site:disable             # Disables the site removing the symbolic link located in the enabled folder
 cap nginx:site:enable              # Enables the site creating a symbolic link into the enabled folder
 cap nginx:site:remove              # Removes the site removing the configuration file from the available folder
+cap nginx:gzip_static              # Compress all js and css files in :nginx_static_dir with gzip
 ```
 
 Configurable options (copy into deploy.rb), shown here with examples:
