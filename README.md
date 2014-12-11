@@ -46,6 +46,17 @@ Configurable options (copy into deploy.rb), shown here with examples:
 # No default vaue
 set :nginx_domains, "foo.bar.com"
 
+# Sudo usage can be enables on task and/or path level.
+# If sudo is enabled for a specific task (i.e. 'nginx:site:add') every
+# command in that task will be run using sudo priviliges.
+# If sudo is enables for a specific path (i.e. :nginx_sites_enabled_dir)
+# only command manipulating that directory will be run using sudo privileges.
+# Note: When options overlap, sudo is used if either option permits it.
+#
+# Everything is run as sudo per default.
+# set :nginx_sudo_paths, [:nginx_log_path, :nginx_sites_enabled_dir, :nginx_sites_available_dir]
+# set :nginx_sudo_tasks, ['nginx:start', 'nginx:stop', 'nginx:restart', 'nginx:reload', 'nginx:configtest', 'nginx:site:add', 'nginx:site:disable', 'nginx:site:enable', 'nginx:site:remove' ]
+
 # nginx service script
 # Defaults to using the 'service' convinience script.
 # You might prefer using the init.d instead depending on sudo privilages.
@@ -70,11 +81,11 @@ set :nginx_static_dir, "my_static_folder"
 
 # Path where nginx available site are stored
 # default value: "sites-available"
-set :nginx_sites_available, "sites-available"
+set :nginx_sites_available_dir, "sites-available"
 
 # Path where nginx available site are stored
 # default value: "sites-enabled"
-set :nginx_sites_enabled, "sites-enabled"
+set :nginx_sites_enabled_dir, "sites-enabled"
 
 # Path to look for custom config template
 # `:default` will use the bundled nginx template
