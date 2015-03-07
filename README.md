@@ -113,6 +113,10 @@ set :nginx_ssl_certificate_key, 'my-domain.key'
 # default value: "/etc/ssl/private"
 set :nginx_ssl_certificate_key_path, "#{shared_path}/ssl/private"
 
+# You can set a timeout value in seconds
+# nginx's default is 30 seconds
+set :nginx_read_timeout, 30
+
 # Whether you want to server an application through a proxy pass
 # default value: true
 set :app_server, true

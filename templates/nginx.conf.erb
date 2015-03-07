@@ -61,6 +61,9 @@ server {
   <% if fetch(:nginx_use_ssl) %>
     proxy_set_header X-Forwarded-Proto https;
   <% end %>
+  <% if fetch(:nginx_read_timeout) %>
+    proxy_read_timeout <%= fetch(:nginx_read_timeout) %>;
+  <% end %>
     proxy_redirect off;
     proxy_pass http://<%= fetch(:application) %>-app-server;
   }
