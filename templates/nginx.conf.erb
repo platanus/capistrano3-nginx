@@ -11,6 +11,14 @@ upstream <%= fetch(:application) %>-app-server {
 
 # HTTP Server
 
+<% if fetch(:nginx_redirected_domains) %>
+server {
+  listen 80;
+  server_name <%= fetch(:nginx_redirected_domains) %>;
+  rewrite ^(.*) http://<%= fetch(:nginx_domains).gsub(/\s.*/,'') %> permanent;
+}
+<% end %>
+
 <% if fetch(:nginx_use_ssl) %>
 server {
   listen 80;
