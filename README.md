@@ -42,9 +42,13 @@ cap nginx:gzip_static              # Compress all js and css files in :nginx_sta
 Configurable options (copy into deploy.rb), shown here with examples:
 
 ```ruby
-# Server name for nginx
-# No default vaue
-set :nginx_domains, "foo.bar.com"
+# Server name for nginx, space separated values
+# No default value
+set :nginx_domains, "foo.bar.com foo.other.com"
+
+# Redirected domains, all these will have a permanent redirect to the first of :nginx_domains
+# No default value
+set :nginx_redirected_domains, "bar.com other.com"
 
 # Sudo usage can be enables on task and/or path level.
 # If sudo is enabled for a specific task (i.e. 'nginx:site:add') every
