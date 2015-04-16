@@ -1,4 +1,4 @@
-# Capistrano::Nginx [![Gem Version](https://badge.fury.io/rb/capistrano3-nginx.png)](http://badge.fury.io/rb/capistrano3-nginx)
+# Capistrano::Nginx [![Gem Version](https://badge.fury.io/rb/capistrano3-nginx.svg)](http://badge.fury.io/rb/capistrano3-nginx)
 
 Nginx support for Capistrano 3.x
 
