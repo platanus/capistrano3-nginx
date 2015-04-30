@@ -135,6 +135,7 @@ namespace :nginx do
           within fetch(:sites_enabled) do
             arguments = :rm, '-f', fetch(:application)
             add_sudo_if_required arguments, 'nginx:sites:disable', :nginx_sites_enabled_dir
+            execute *arguments
           end
         end
       end
