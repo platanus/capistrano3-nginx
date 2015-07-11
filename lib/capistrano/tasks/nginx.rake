@@ -3,12 +3,11 @@ namespace :load do
     set :nginx_sudo_paths,          -> { [:nginx_log_path, :nginx_sites_enabled_dir, :nginx_sites_available_dir] }
     set :nginx_sudo_tasks,          -> { ['nginx:start', 'nginx:stop', 'nginx:restart', 'nginx:reload', 'nginx:configtest', 'nginx:site:add', 'nginx:site:disable', 'nginx:site:enable', 'nginx:site:remove' ] }
     set :nginx_log_path,            -> { "#{shared_path}/log" }
-    set :nginx_root_path,           -> { "/etc/nginx" }
     set :nginx_service_path,        -> { 'service nginx' }
     set :nginx_static_dir,          -> { "public" }
-    set :nginx_sites_enabled_dir,   -> { "sites-enabled" }
-    set :nginx_sites_available_dir, -> { "sites-available" }
     set :nginx_application_name,    -> { fetch(:application) }
+    set :nginx_sites_enabled_dir,   -> { "/etc/nginx/sites-enabled" }
+    set :nginx_sites_available_dir, -> { "/etc/nginx/sites-available" }
     set :nginx_roles,               -> { :web }
     set :nginx_template,            -> { :default }
     set :nginx_use_ssl,             -> { false }
@@ -43,8 +42,8 @@ namespace :nginx do
   end
 
   task :load_vars do
-    set :sites_available,       -> { File.join(fetch(:nginx_root_path), fetch(:nginx_sites_available_dir)) }
-    set :sites_enabled,         -> { File.join(fetch(:nginx_root_path), fetch(:nginx_sites_enabled_dir)) }
+    set :sites_available,       -> { fetch(:nginx_sites_available_dir) }
+    set :sites_enabled,         -> { fetch(:nginx_sites_enabled_dir) }
     set :enabled_application,   -> { File.join(fetch(:sites_enabled),   fetch(:nginx_application_name)) }
     set :available_application, -> { File.join(fetch(:sites_available), fetch(:nginx_application_name)) }
   end

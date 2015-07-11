@@ -75,17 +75,13 @@ set :nginx_roles, :web
 # default value:  "#{shared_path}/log"
 # set :nginx_log_path, "#{shared_path}/log"
 
-# Path where nginx is installed
-# default value: "/etc/nginx"
-set :nginx_root_path, "/etc/nginx"
-
 # Path where to look for static files
 # default value: "public"
 set :nginx_static_dir, "my_static_folder"
 
 # Path where nginx available site are stored
 # default value: "sites-available"
-set :nginx_sites_available_dir, "sites-available"
+set :nginx_sites_available_dir, "/etc/nginx/sites-available"
 
 # Name of file stored in site-enabled/available
 # default value: "#{fetch :application}"
@@ -93,7 +89,7 @@ set :nginx_application_name, "#{fetch :application}-#{fetch :stage}"
 
 # Path where nginx available site are stored
 # default value: "sites-enabled"
-set :nginx_sites_enabled_dir, "sites-enabled"
+set :nginx_sites_enabled_dir, "/etc/nginx/sites-enabled"
 
 # Path to look for custom config template
 # `:default` will use the bundled nginx template
