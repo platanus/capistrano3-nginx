@@ -87,6 +87,10 @@ set :nginx_static_dir, "my_static_folder"
 # default value: "sites-available"
 set :nginx_sites_available_dir, "sites-available"
 
+# Name of file stored in site-enabled/available
+# default value: "#{fetch :application}"
+set :nginx_application_name, "#{fetch :application}-#{fetch :stage}"
+
 # Path where nginx available site are stored
 # default value: "sites-enabled"
 set :nginx_sites_enabled_dir, "sites-enabled"
