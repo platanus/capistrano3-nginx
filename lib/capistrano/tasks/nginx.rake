@@ -8,6 +8,7 @@ namespace :load do
     set :nginx_static_dir,          -> { "public" }
     set :nginx_sites_enabled_dir,   -> { "sites-enabled" }
     set :nginx_sites_available_dir, -> { "sites-available" }
+    set :nginx_application_name,    -> { fetch(:application) }
     set :nginx_roles,               -> { :web }
     set :nginx_template,            -> { :default }
     set :nginx_use_ssl,             -> { false }
@@ -44,8 +45,8 @@ namespace :nginx do
   task :load_vars do
     set :sites_available,       -> { File.join(fetch(:nginx_root_path), fetch(:nginx_sites_available_dir)) }
     set :sites_enabled,         -> { File.join(fetch(:nginx_root_path), fetch(:nginx_sites_enabled_dir)) }
-    set :enabled_application,   -> { File.join(fetch(:sites_enabled),   fetch(:application)) }
-    set :available_application, -> { File.join(fetch(:sites_available), fetch(:application)) }
+    set :enabled_application,   -> { File.join(fetch(:sites_enabled),   fetch(:nginx_application_name)) }
+    set :available_application, -> { File.join(fetch(:sites_available), fetch(:nginx_application_name)) }
   end
 
   # validate_sudo_settings
@@ -108,7 +109,7 @@ namespace :nginx do
           end
           config = ERB.new(File.read(config_file)).result(binding)
           upload! StringIO.new(config), '/tmp/nginx.conf'
-          arguments = :mv, '/tmp/nginx.conf', fetch(:application)
+          arguments = :mv, '/tmp/nginx.conf', fetch(:nginx_application_name)
           add_sudo_if_required arguments, 'nginx:sites:add', :nginx_sites_available_dir
           execute *arguments
         end
