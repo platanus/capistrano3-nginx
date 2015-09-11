@@ -80,16 +80,16 @@ set :nginx_roles, :web
 set :nginx_static_dir, "my_static_folder"
 
 # Path where nginx available site are stored
-# default value: "sites-available"
-set :nginx_sites_available_dir, "/etc/nginx/sites-available"
+# default value: "/etc/nginx/sites-available"
+set :nginx_sites_available_dir, "/opt/nginx/sites-available"
 
 # Name of file stored in site-enabled/available
 # default value: "#{fetch :application}"
 set :nginx_application_name, "#{fetch :application}-#{fetch :stage}"
 
 # Path where nginx available site are stored
-# default value: "sites-enabled"
-set :nginx_sites_enabled_dir, "/etc/nginx/sites-enabled"
+# default value: "/etc/nginx/sites-enabled"
+set :nginx_sites_enabled_dir, "/opt/nginx/sites-enabled"
 
 # Path to look for custom config template
 # `:default` will use the bundled nginx template
