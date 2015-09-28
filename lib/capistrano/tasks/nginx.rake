@@ -146,7 +146,7 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         if test "[ -f #{fetch(:available_application)} ]"
           within fetch(:sites_available) do
-            arguments = :rm, fetch(:application)
+            arguments = :rm, fetch(:nginx_application_name)
             add_sudo_if_required arguments, 'nginx:sites:remove', :nginx_sites_available_dir
             execute *arguments
           end
