@@ -133,7 +133,7 @@ namespace :nginx do
       on release_roles fetch(:nginx_roles) do
         if test "[ -f #{fetch(:enabled_application)} ]"
           within fetch(:sites_enabled) do
-            arguments = :rm, '-f', fetch(:application)
+            arguments = :rm, '-f', fetch(:nginx_application_name)
             add_sudo_if_required arguments, 'nginx:sites:disable', :nginx_sites_enabled_dir
             execute *arguments
           end
