@@ -80,13 +80,14 @@ namespace :nginx do
     before "nginx:#{command}", 'nginx:configtest' unless command == 'stop'
   end
 
-  after 'deploy:check', nil do
+  task :create_log_paths do
     on release_roles fetch(:nginx_roles) do
       arguments = :mkdir, '-pv', fetch(:nginx_log_path)
       add_sudo_if_required arguments, :nginx_log_path
       execute *arguments
     end
   end
+  after 'deploy:check', 'nginx:create_log_paths'
 
   desc 'Compress JS and CSS with gzip'
   task :gzip_static => ['nginx:load_vars'] do
