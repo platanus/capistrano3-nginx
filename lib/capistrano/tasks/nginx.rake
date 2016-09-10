@@ -5,7 +5,7 @@ namespace :load do
     set :nginx_log_path,            -> { "#{shared_path}/log" }
     set :nginx_service_path,        -> { 'service nginx' }
     set :nginx_static_dir,          -> { "public" }
-    set :nginx_application_name,    -> { fetch(:application) }
+    set :nginx_application_name,    -> { fetch(:application)_fetch(:stage) }
     set :nginx_sites_enabled_dir,   -> { "/etc/nginx/sites-enabled" }
     set :nginx_sites_available_dir, -> { "/etc/nginx/sites-available" }
     set :nginx_roles,               -> { :web }
