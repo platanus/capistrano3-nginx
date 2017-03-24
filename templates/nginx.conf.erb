@@ -70,6 +70,7 @@ server {
     proxy_set_header Host $http_host;
   <% if fetch(:nginx_use_ssl) %>
     proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Forwarded-Ssl on;
   <% end %>
   <% if fetch(:nginx_read_timeout) %>
     proxy_read_timeout <%= fetch(:nginx_read_timeout) %>;
