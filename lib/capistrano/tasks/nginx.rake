@@ -24,19 +24,19 @@ namespace :nginx do
   # prepend :sudo to list if arguments if :key is in :nginx_use_sudo_for list
   def add_sudo_if_required argument_list, *keys
     keys.each do | key |
-      if use_sudo? key
+      if nginx_use_sudo? key
         argument_list.unshift(:sudo)
         break
       end
     end
   end
 
-  def use_sudo? key
+  def nginx_use_sudo? key
     return (fetch(:nginx_sudo_tasks).include?(key) || fetch(:nginx_sudo_paths).include?(key))
   end
 
   def valid_nginx_config?
-    test_sudo = use_sudo?('nginx:configtest') ? 'sudo ' : ''
+    test_sudo = nginx_use_sudo?('nginx:configtest') ? 'sudo ' : ''
     nginx_service = fetch(:nginx_service_path)
     test "[ $(#{test_sudo}#{nginx_service} configtest | grep -c 'fail') -eq 0 ]"
   end
