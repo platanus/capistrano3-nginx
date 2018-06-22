@@ -1,10 +1,8 @@
+**This fork is no longer maintained, maybe try this one: [treenewbee/capistrano3-nginx](https://github.com/treenewbee/capistrano3-nginx)**
+
+---
+
 # Capistrano::Nginx [![Gem Version](https://badge.fury.io/rb/capistrano3-nginx.svg)](http://badge.fury.io/rb/capistrano3-nginx)
-
-# UNMAINTAINED NOTICE
-
-We stopped using capistrano to deploy our applicacions, so this project is not longer maintained.
-
-<hr />
 
 Nginx support for Capistrano 3.x
 
