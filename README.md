@@ -29,10 +29,10 @@ Require in `Capfile` to use the default task:
 require 'capistrano/nginx'
 ```
 
-If you are using the newer maintained fork, your `Capfile` will also need need: 
+If you are using the newer maintained fork (see above), your `Capfile` will also need need: 
 
 ```ruby
-install install_plugin Capistrano::Nginx
+install_plugin Capistrano::Nginx
 ```
 
 You will get the following tasks
